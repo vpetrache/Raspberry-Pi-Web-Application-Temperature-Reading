@@ -77,10 +77,10 @@ def display_data():
 def main():
 
         # Store the temperature in the database
-	temperatura=read_temperature(s)
-	greutate=read_weight(s)
+    temperatura=read_temperature(s)
+    greutate=read_weight(s)
     log_temperatura(temperatura)
-	log_greutate(greutate)
+    log_greutate(greutate)
 
         # display the contents of the database
 #        display_data()
