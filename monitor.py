@@ -13,7 +13,7 @@ import re
 
 serial_pattern = r"T: (\d+\.\d*)\n";
 serial_pattern2 = r"W: (\d+\.\d*)\n";
-serial_port = '/dev/ttyACM0';
+serial_port = '/dev/ttyACM0'; #arduino's serial port on raspberry pi
 serial_bauds = 9600;
 
 
