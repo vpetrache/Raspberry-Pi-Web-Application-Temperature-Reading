@@ -56,10 +56,10 @@ def get_data1(interval):
     curs=conn.cursor()
 
     if interval == None:
-        curs.execute("SELECT * FROM greutate")
+        curs.execute("SELECT * FROM weight")
     else:
 #        curs.execute("SELECT * FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hours') AND timestamp<=datetime('2013-09-19 21:31:02')" % interval)
-        curs.execute("SELECT * FROM greutate WHERE timestamp>datetime('now','-%s hours')" % interval)
+        curs.execute("SELECT * FROM weight WHERE timestamp>datetime('now','-%s hours')" % interval)
     rows1=curs.fetchall()
 
     conn.close()
@@ -216,17 +216,17 @@ def show_stats1(option):
     if option is None:
         option = str(24)
 
-    curs.execute("SELECT timestamp,max(temp) FROM greutate WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
+    curs.execute("SELECT timestamp,max(temp) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
 #    curs.execute("SELECT timestamp,max(temp) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
     rowmax=curs.fetchone()
     rowstrmax="{0}&nbsp&nbsp&nbsp{1}C".format(str(rowmax[0]),str(rowmax[1]))
 
-    curs.execute("SELECT timestamp,min(temp) FROM greutate WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
+    curs.execute("SELECT timestamp,min(temp) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
 #    curs.execute("SELECT timestamp,min(temp) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
     rowmin=curs.fetchone()
     rowstrmin="{0}&nbsp&nbsp&nbsp{1}C".format(str(rowmin[0]),str(rowmin[1]))
 
-    curs.execute("SELECT avg(temp) FROM greutate WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
+    curs.execute("SELECT avg(temp) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
 #    curs.execute("SELECT avg(temp) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
     rowavg=curs.fetchone()
 
@@ -247,7 +247,7 @@ def show_stats1(option):
     print "<table>"
     print "<tr><td><strong>Date/Time</strong></td><td><strong>Temperature</strong></td></tr>"
 
-    rows=curs.execute("SELECT * FROM greutate WHERE timestamp>datetime('new','-1 hour') AND timestamp<=datetime('new')")
+    rows=curs.execute("SELECT * FROM weight WHERE timestamp>datetime('new','-1 hour') AND timestamp<=datetime('new')")
 #    rows=curs.execute("SELECT * FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-1 hour') AND timestamp<=datetime('2013-09-19 21:31:02')")
     for row in rows:
         rowstr="<tr><td>{0}&emsp;&emsp;</td><td>{1}C</td></tr>".format(str(row[0]),str(row[1]))
