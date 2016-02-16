@@ -49,12 +49,12 @@ def log_temperature(temp):
 
     conn.close()
 	
-def log_greutate(Kg):
+def log_weight(Kg):
 
     conn=sqlite3.connect(dbname)
     curs=conn.cursor()
 
-    curs.execute("INSERT INTO greutate values(datetime('now'), (?))", (Kg,))
+    curs.execute("INSERT INTO weight values(datetime('now'), (?))", (Kg,))
 
     # commit the changes
     conn.commit()
@@ -78,9 +78,9 @@ def main():
 
         # Store the temperature in the database
     temperatura=read_temperature(s)
-    greutate=read_weight(s)
+    weight=read_weight(s)
     log_temperatura(temperatura)
-    log_greutate(greutate)
+    log_weight(weight)
 
         # display the contents of the database
 #        display_data()
