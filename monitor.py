@@ -1,92 +1,33 @@
-#!/usr/bin/env python
+def daily_songs(day):
+    db = MySQLdb.connect("localhost","root","", "radio21")
+    i= day + '%'
+    cursor = db.cursor()
+    sql = "SELECT artist, song, time from songs where time like ('%s') order by time desc" % \
+          (i)
 
-import sqlite3
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        return results
+    except:
+        print "Error: unable to fetch data"
 
-import os
+    db.close()
+    
+    <----
+import csv
 import time
-import glob
+import schedule
+from datetime import datetime
 
-from serial import Serial
-import re
+def write_log():
+    current_date = datetime.now().strftime('%Y-%m-%d')
+    i = (current_date+'.csv')
+    x = daily_songs(current_date)
 
+    with open(i, 'wb') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(['artists ', 'songs ', 'time'])
+        writer.writerows(x)
 
-
-serial_pattern = r"T: (\d+\.\d*)\n";
-serial_pattern2 = r"W: (\d+\.\d*)\n";
-serial_port = '/dev/ttyACM0'; #arduino's serial port on raspberry pi
-serial_bauds = 9600;
-
-
-# global variables
-speriod=(15*60)-1
-dbname='/var/www/templog.db'
-
-def open_serial_port() :
-  s = Serial(serial_port, serial_bauds);
-  line = s.readline();
-  return s
-
-def read_temperature(s):
-  line = s.readline();
-  m = re.match(serial_pattern, line);
-  return float(m.group(1))  
- 
-def read_weight(s):
-  line = s.readline();
-  m = re.match(serial_pattern2, line);
-  return float(m.group(1))  
-  
-# store the temperature in the database
-def log_temperature(temp):
-
-    conn=sqlite3.connect(dbname)
-    curs=conn.cursor()
-
-    curs.execute("INSERT INTO temps values(datetime('now'), (?))", (temp,))
-
-    # commit the changes
-    conn.commit()
-
-    conn.close()
-	
-def log_weight(Kg):
-
-    conn=sqlite3.connect(dbname)
-    curs=conn.cursor()
-
-    curs.execute("INSERT INTO weight values(datetime('now'), (?))", (Kg,))
-
-    # commit the changes
-    conn.commit()
-
-    conn.close()
-	
-
-# display the contents of the database
-def display_data():
-
-    conn=sqlite3.connect(dbname)
-    curs=conn.cursor()
-
-    for row in curs.execute("SELECT * FROM temps"):
-        print str(row[0])+"	"+str(row[1])
-
-    conn.close()
-
-
-def main():
-
-        # Store the temperature in the database
-    temperatura=read_temperature(s)
-    weight=read_weight(s)
-    log_temperatura(temperatura)
-    log_weight(weight)
-
-        # display the contents of the database
-#        display_data()
-
-#        time.sleep(speriod)
-
-
-if __name__=="__main__":
-    main()
+schedule.every().hour.do(write_log)    
