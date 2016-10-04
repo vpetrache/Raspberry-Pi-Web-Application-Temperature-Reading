@@ -66,7 +66,7 @@ def get_data1(interval):
 
     return rows1
 
-	
+
 # convert rows from database into a javascript table
 def create_table(rows):
     chart_table=""
@@ -85,12 +85,12 @@ def create_table1(rows1):
     chart_table1=""
 
     for row1 in rows1[:-1]:
-        rowstr="['{0}', {1}],\n".format(str(row[0]),str(row[1]))
-        chart_table+=rowstr
+        rowstr="['{0}', {1}],\n".format(str(row1[0]),str(row1[1]))
+        chart_table1+=rowstr
 
     row1=rows1[-1]
-    rowstr="['{0}', {1}]\n".format(str(row[0]),str(row[1]))
-    chart_table+=rowstr
+    rowstr="['{0}', {1}]\n".format(str(row1[0]),str(row1[1]))
+    chart_table1+=rowstr
 
     return chart_table1
 
@@ -216,18 +216,18 @@ def show_stats1(option):
     if option is None:
         option = str(24)
 
-    curs.execute("SELECT timestamp,max(temp) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
-#    curs.execute("SELECT timestamp,max(temp) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
+    curs.execute("SELECT timestamp,max(Kg) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
+#    curs.execute("SELECT timestamp,max(Kg) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
     rowmax=curs.fetchone()
     rowstrmax="{0}&nbsp&nbsp&nbsp{1}C".format(str(rowmax[0]),str(rowmax[1]))
 
-    curs.execute("SELECT timestamp,min(temp) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
-#    curs.execute("SELECT timestamp,min(temp) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
+    curs.execute("SELECT timestamp,min(Kg) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
+#    curs.execute("SELECT timestamp,min(Kg) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
     rowmin=curs.fetchone()
     rowstrmin="{0}&nbsp&nbsp&nbsp{1}C".format(str(rowmin[0]),str(rowmin[1]))
 
-    curs.execute("SELECT avg(temp) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
-#    curs.execute("SELECT avg(temp) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
+    curs.execute("SELECT avg(Kg) FROM weight WHERE timestamp>datetime('now','-%s hour') AND timestamp<=datetime('now')" % option)
+#    curs.execute("SELECT avg(Kg) FROM temps WHERE timestamp>datetime('2013-09-19 21:30:02','-%s hour') AND timestamp<=datetime('2013-09-19 21:31:02')" % option)
     rowavg=curs.fetchone()
 
 
